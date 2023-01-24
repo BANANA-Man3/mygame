@@ -21,8 +21,9 @@ grass = pygame.Surface((1275,50))
 grass.fill('Green')
 house = pygame.image.load("houseimage.png").convert_alpha()
 house_rect = house.get_rect(topleft = (1025,300))
-insidehouse = pygame.image.load("insidehouse.png").convert_alpha()
-def house():
+
+def inhouse():
+    insidehouse = pygame.image.load("insidehouse.png").convert_alpha()
     screen.blit(insidehouse,(0,0))
 merchant = pygame.image.load("merchantimage.png").convert_alpha()
 merchant_rect = merchant.get_rect(topleft = (775,300))
@@ -45,6 +46,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if house_rect.collidepoint(event.pos):
                 print("house")
+                inhouse()
             if merchant_rect.collidepoint(event.pos):
                 print("merchant")
             if petshop_rect.collidepoint(event.pos):
