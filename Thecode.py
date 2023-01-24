@@ -11,11 +11,11 @@ pygame.display.set_caption("Awesome game")
 screen = pygame.display.set_mode((1275,700))
 
 #sky
-sky = pygame.Surface((1275,500))
-sky.fill('Light Blue')
+#sky = pygame.Surface((1275,500))
+sky = pygame.image.load("skyimage.png").convert_alpha()
 #town
-road = pygame.Surface((1275,100))
-road.fill('Brown')
+road = pygame.image.load("roadimage.png").convert_alpha()
+
 road_rect = road.get_rect(topleft = (0,550))
 grass = pygame.Surface((1275,50))
 grass.fill('Green')
