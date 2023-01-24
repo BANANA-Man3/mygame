@@ -21,10 +21,27 @@ grass = pygame.Surface((1275,50))
 grass.fill('Green')
 house = pygame.image.load("houseimage.png").convert_alpha()
 house_rect = house.get_rect(topleft = (1025,300))
-
-def inhouse():
-    insidehouse = pygame.image.load("insidehouse.png").convert_alpha()
-    screen.blit(insidehouse,(0,0))
+arrow = pygame.image.load("arrowimage.png").convert_alpha()
+arrow_rect = arrow.get_rect(topleft = (20,300))
+def inhome():
+    global arrow
+    global arrow_rect
+    inhouse = True
+    while inhouse:
+        mouse_pos = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if arrow_rect.collidepoint(event.pos):
+                    inhouse = False
+        insidehouse = pygame.image.load("insidehouseimage.png").convert_alpha()
+        screen.blit(insidehouse,(0,0))
+        screen.blit(arrow,arrow_rect)
+        
+        pygame.display.update()
+        clock.tick(60)
 merchant = pygame.image.load("merchantimage.png").convert_alpha()
 merchant_rect = merchant.get_rect(topleft = (775,300))
 
@@ -46,7 +63,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if house_rect.collidepoint(event.pos):
                 print("house")
-                inhouse()
+                inhome()
             if merchant_rect.collidepoint(event.pos):
                 print("merchant")
             if petshop_rect.collidepoint(event.pos):
