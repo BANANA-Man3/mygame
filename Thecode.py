@@ -19,21 +19,21 @@ road = pygame.image.load("roadimage.png").convert_alpha()
 road_rect = road.get_rect(topleft = (0,550))
 grass = pygame.Surface((1275,50))
 grass.fill('Green')
-house = pygame.Surface((200,250))
+house = pygame.image.load("houseimage.png").convert_alpha()
 house_rect = house.get_rect(topleft = (1025,300))
-house.fill('Grey')
-merchant = pygame.Surface((200,250))
+
+merchant = pygame.image.load("merchantimage.png").convert_alpha()
 merchant_rect = merchant.get_rect(topleft = (775,300))
-merchant.fill('Grey')
-petshop = pygame.Surface((200,250))
+
+petshop = pygame.image.load("petshopimage.png").convert_alpha()
 petshop_rect = petshop.get_rect(topleft = (525,300))
-petshop.fill('Grey')
-lab = pygame.Surface((200,250))
+
+lab = pygame.image.load("skilltreeimage.png").convert_alpha()
 lab_rect = lab.get_rect(topleft = (275,300))
-lab.fill('Grey')
-quest = pygame.Surface((200,250))
+
+quest = pygame.image.load("questsimage.png").convert_alpha()
 quest_rect = quest.get_rect(topleft = (25,300))
-quest.fill('Grey')
+
 while True:
     mouse_pos = pygame.mouse.get_pos()
     for event in pygame.event.get():
