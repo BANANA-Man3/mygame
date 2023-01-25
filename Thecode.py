@@ -65,7 +65,25 @@ def inmerchantfunc():
         clock.tick(60)
 petshop = pygame.image.load("petshopimage.png").convert_alpha()
 petshop_rect = petshop.get_rect(topleft = (525,300))
-
+def inpetshopfunc():
+    global arrow
+    global arrow_rect
+    inpetshop = True
+    while inpetshop:
+        mouse_pos = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if arrow_rect.collidepoint(event.pos):
+                    inpetshop = False
+        petshopimage = pygame.image.load("insidepetshop.png").convert_alpha()
+        screen.blit(petshopimage,(0,0))
+        screen.blit(arrow,arrow_rect)
+        
+        pygame.display.update()
+        clock.tick(60)
 lab = pygame.image.load("skilltreeimage.png").convert_alpha()
 lab_rect = lab.get_rect(topleft = (275,300))
 
@@ -87,6 +105,7 @@ while True:
                 inmerchantfunc()
             if petshop_rect.collidepoint(event.pos):
                 print("petshop")
+                inpetshopfunc()
             if lab_rect.collidepoint(event.pos):
                 print("lab")
             if quest_rect.collidepoint(event.pos):
