@@ -44,7 +44,25 @@ def inhome():
         clock.tick(60)
 merchant = pygame.image.load("merchantimage.png").convert_alpha()
 merchant_rect = merchant.get_rect(topleft = (775,300))
-
+def inmerchantfunc():
+    global arrow
+    global arrow_rect
+    inmerchant = True
+    while inmerchant:
+        mouse_pos = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if arrow_rect.collidepoint(event.pos):
+                    inmerchant = False
+        insidemerchant = pygame.image.load("insidemerchantimage.png").convert_alpha()
+        screen.blit(insidemerchant,(0,0))
+        screen.blit(arrow,arrow_rect)
+        
+        pygame.display.update()
+        clock.tick(60)
 petshop = pygame.image.load("petshopimage.png").convert_alpha()
 petshop_rect = petshop.get_rect(topleft = (525,300))
 
@@ -66,6 +84,7 @@ while True:
                 inhome()
             if merchant_rect.collidepoint(event.pos):
                 print("merchant")
+                inmerchantfunc()
             if petshop_rect.collidepoint(event.pos):
                 print("petshop")
             if lab_rect.collidepoint(event.pos):
