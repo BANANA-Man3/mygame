@@ -12,7 +12,7 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = {"itemset": "wood", "name": "sword", "damage": 1, "equiped": True, "level": 1}
+userinv = {"itemset": "wood", "name": "sword", "damage": 5, "equiped": True, "level": 1}
 coins = 0
 health = 100
 def getdamage():
@@ -35,6 +35,9 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
     mob3_rect = mob3.get_rect(topleft = (1035,365))
     selectedmob = "mob1num"
     attackcounter = 0
+    m1alive = True
+    m2alive = True
+    m3alive = True
     while inside:
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -54,14 +57,23 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                 mobh1 -= getdamage()
                 print(mobh1)
                 attackcounter = 0
+                if mobh1 <= 0:
+                    m1alive = False
             if selectedmob == "mob2num":
                 mobh2 -= getdamage()
                 print(mobh2)
                 attackcounter = 0
+                if mobh2 <= 0:
+                    m2alive = False
             if selectedmob == "mob3num":
                 mobh3 -= getdamage()
                 print(mobh3)
                 attackcounter = 0
+                if mobh1 <= 0:
+                    m3alive = False
+        if not m1alive and not m2alive and not m3alive:
+            won()
+            inside = False
         insidemap = pygame.image.load("fightseen.png").convert_alpha()
         screen.blit(insidemap,(0,0))
         screen.blit(mobn1surf,(700,200))
@@ -75,6 +87,8 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
             screen.blit(mob3,mob3_rect)
         pygame.display.update()
         clock.tick(60)
+def won():
+    print("hi")
 #sky
 #sky = pygame.Surface((1275,500))
 sky = pygame.image.load("skyimage.png").convert_alpha()
