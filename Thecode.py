@@ -1,6 +1,6 @@
 import time
 import pygame
-from random import randint
+import random
 from sys import exit
 hi = "hi"
 #game start
@@ -12,13 +12,44 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = {"itemset": "wood", "name": "sword", "damage": 5, "equiped": True, "level": 1}
+userinv = [{"equiped":True,"itemset": "wood","type": "Weapon","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
+def kill():
+    global coins
+    rancoins = random.randint(1,5)
+    ranitem = random.randint(1,3)
+    coins += rancoins
+    getitem()
+    if ranitem == 1:
+        getitem()
+
+def getitem():
+    irareity = random.randint(1,10000)
+    itype = random.randint(0,4)
+    typelist = ["Helmet","Chestplate","Leggings","Boots","Weapon"]
+    newtype = typelist[itype]
+    raritylist = ["Common","Uncommon","Rare","Epic","Legendary","Mythical"]
+    if irareity <= 5000:#50
+        newrareity = "Common"
+    elif irareity <= 7500:#20
+        newrareity = "Uncommon"
+    elif irareity <= 9500:#12.5
+        newrareity = "Rare"
+    elif irareity <= 9900:#11.5
+        newrareity = "Epic"
+    elif irareity <= 9999:#.99
+        newrareity = "Legendary"
+    elif irareity == 10000:#.01
+        newrareity = "Mythical"
+    userinv.append({"equiped":False,"type":newtype,"level":1,"rarity": newrareity,"damage":1})
+    print(userinv)
 def getdamage():
+    count = 0
     for i in userinv:
-        if userinv["equiped"] == True:
-            return userinv["damage"]
+        if i["equiped"] == True:
+            return userinv[count]["damage"]
+        count += 1
 damage = getdamage()
 test_font = pygame.font.Font('font/Pixeltype.ttf',50)
 #fight
@@ -30,9 +61,9 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
     mob1 = pygame.image.load("monsters/testmonster.png").convert_alpha()
     mob2 = pygame.image.load("monsters/testmonster.png").convert_alpha()
     mob3 = pygame.image.load("monsters/testmonster.png").convert_alpha()
-    mob1_rect = mob1.get_rect(topleft = (535,365))
-    mob2_rect = mob2.get_rect(topleft = (335,365))
-    mob3_rect = mob3.get_rect(topleft = (1035,365))
+    mob1_rect = mob1.get_rect(topleft = (635,265))
+    mob2_rect = mob2.get_rect(topleft = (235,265))
+    mob3_rect = mob3.get_rect(topleft = (1035,265))
     selectedmob = "mob1num"
     attackcounter = 0
     m1alive = True
@@ -54,23 +85,26 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         attackcounter += 1
         if attackcounter >= 60:
             if selectedmob == "mob1num":
+                print(getdamage())
                 mobh1 -= getdamage()
-                print(mobh1)
                 attackcounter = 0
                 if mobh1 <= 0:
                     m1alive = False
+                    kill()
             if selectedmob == "mob2num":
                 mobh2 -= getdamage()
                 print(mobh2)
                 attackcounter = 0
                 if mobh2 <= 0:
                     m2alive = False
+                    kill()
             if selectedmob == "mob3num":
                 mobh3 -= getdamage()
                 print(mobh3)
                 attackcounter = 0
                 if mobh1 <= 0:
                     m3alive = False
+                    kill()
         if not m1alive and not m2alive and not m3alive:
             won()
             inside = False
@@ -88,7 +122,7 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         pygame.display.update()
         clock.tick(60)
 def won():
-    print("hi")
+    ""
 #sky
 #sky = pygame.Surface((1275,500))
 sky = pygame.image.load("skyimage.png").convert_alpha()
