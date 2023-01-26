@@ -19,10 +19,12 @@ def getdamage():
         if userinv["equiped"] == True:
             return userinv["damage"]
 damage = getdamage()
-print(damage)
+
 #fight
-def fight():
+def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
     inside = True
+    monn1surf = font.render(mobn1, False, (64,64,64))
+    screen.blit(monn1surf,(500,300))
     while inside:
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -62,7 +64,7 @@ def inmap():
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
                 if regularfight_rect.collidepoint(event.pos):
-                    fight()
+                    fight("joe","jeff","bill",1,1,1,5,5,5)
         insidemap = pygame.image.load("map.png").convert_alpha()
         regularfight = pygame.image.load("regularfighticon.png").convert_alpha()
         regularfight_rect = regularfight.get_rect(topleft = (535,365))
