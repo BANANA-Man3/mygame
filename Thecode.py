@@ -7,6 +7,7 @@ hi = "hi"
 pygame.init()
 clock = pygame.time.Clock()
 keys = pygame.key.get_pressed()
+pygame.font.init()
 pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
@@ -19,12 +20,15 @@ def getdamage():
         if userinv["equiped"] == True:
             return userinv["damage"]
 damage = getdamage()
-
+test_font = pygame.font.Font('font/Pixeltype.ttf',50)
 #fight
 def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
     inside = True
-    monn1surf = font.render(mobn1, False, (64,64,64))
-    screen.blit(monn1surf,(500,300))
+    mobn1surf = test_font.render(mobn1,False,(64,64,64))
+    mobn2surf = test_font.render(mobn2,False,(64,64,64))
+    mobn3surf = test_font.render(mobn3,False,(64,64,64))
+    mob1 = pygame.image.load("monsters/testmonster.png").convert_alpha()
+    mob1_rect = mob1.get_rect(topleft = (535,365))
     while inside:
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -35,6 +39,10 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                 print("HI")
         insidemap = pygame.image.load("fightseen.png").convert_alpha()
         screen.blit(insidemap,(0,0))
+        screen.blit(mobn1surf,(700,200))
+        screen.blit(mobn2surf,(400,200))
+        screen.blit(mobn3surf,(1000,200))
+        screen.blit(mob1,mob1_rect)
         pygame.display.update()
         clock.tick(60)
 #sky
