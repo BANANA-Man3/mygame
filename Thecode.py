@@ -10,7 +10,21 @@ keys = pygame.key.get_pressed()
 pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
-
+#fight
+def fight():
+    inside = True
+    while inside:
+        mouse_pos = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print("HI")
+        insidemap = pygame.image.load("fightseen.png").convert_alpha()
+        screen.blit(insidemap,(0,0))
+        pygame.display.update()
+        clock.tick(60)
 #sky
 #sky = pygame.Surface((1275,500))
 sky = pygame.image.load("skyimage.png").convert_alpha()
@@ -37,10 +51,14 @@ def inmap():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
+                if regularfight_rect.collidepoint(event.pos):
+                    fight()
         insidemap = pygame.image.load("map.png").convert_alpha()
+        regularfight = pygame.image.load("regularfighticon.png").convert_alpha()
+        regularfight_rect = regularfight.get_rect(topleft = (535,365))
         screen.blit(insidemap,(0,0))
         screen.blit(arrow,arrow_rect)
-        
+        screen.blit(regularfight,regularfight_rect)
         pygame.display.update()
         clock.tick(60)
 def ininventory():
