@@ -10,6 +10,16 @@ keys = pygame.key.get_pressed()
 pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
+#playerinventory 
+userinv = {"itemset": "wood", "name": "sword", "damage": 1, "equiped": True, "level": 1}
+coins = 0
+health = 100
+def getdamage():
+    for i in userinv:
+        if userinv["equiped"] == True:
+            return userinv["damage"]
+damage = getdamage()
+print(damage)
 #fight
 def fight():
     inside = True
