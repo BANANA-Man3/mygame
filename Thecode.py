@@ -28,7 +28,13 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
     mobn2surf = test_font.render(mobn2,False,(64,64,64))
     mobn3surf = test_font.render(mobn3,False,(64,64,64))
     mob1 = pygame.image.load("monsters/testmonster.png").convert_alpha()
+    mob2 = pygame.image.load("monsters/testmonster.png").convert_alpha()
+    mob3 = pygame.image.load("monsters/testmonster.png").convert_alpha()
     mob1_rect = mob1.get_rect(topleft = (535,365))
+    mob2_rect = mob2.get_rect(topleft = (335,365))
+    mob3_rect = mob3.get_rect(topleft = (1035,365))
+    selectedmob = "mob1num"
+    attackcounter = 0
     while inside:
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -36,13 +42,37 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                 pygame.quit()
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print("HI")
+                if mob1_rect.collidepoint(event.pos):
+                    selectedmob = "mob1num"
+                if mob2_rect.collidepoint(event.pos):
+                    selectedmob = "mob2num"
+                if mob3_rect.collidepoint(event.pos):
+                    selectedmob = "mob3num"
+        attackcounter += 1
+        if attackcounter >= 60:
+            if selectedmob == "mob1num":
+                mobh1 -= getdamage()
+                print(mobh1)
+                attackcounter = 0
+            if selectedmob == "mob2num":
+                mobh2 -= getdamage()
+                print(mobh2)
+                attackcounter = 0
+            if selectedmob == "mob3num":
+                mobh3 -= getdamage()
+                print(mobh3)
+                attackcounter = 0
         insidemap = pygame.image.load("fightseen.png").convert_alpha()
         screen.blit(insidemap,(0,0))
         screen.blit(mobn1surf,(700,200))
         screen.blit(mobn2surf,(400,200))
         screen.blit(mobn3surf,(1000,200))
-        screen.blit(mob1,mob1_rect)
+        if mobh1 >= 0:
+            screen.blit(mob1,mob1_rect)
+        if mobh2 >= 0:
+            screen.blit(mob2,mob2_rect)
+        if mobh3 >= 0:
+            screen.blit(mob3,mob3_rect)
         pygame.display.update()
         clock.tick(60)
 #sky
@@ -72,7 +102,7 @@ def inmap():
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
                 if regularfight_rect.collidepoint(event.pos):
-                    fight("joe","jeff","bill",1,1,1,5,5,5)
+                    fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
         insidemap = pygame.image.load("map.png").convert_alpha()
         regularfight = pygame.image.load("regularfighticon.png").convert_alpha()
         regularfight_rect = regularfight.get_rect(topleft = (535,365))
