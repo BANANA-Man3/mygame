@@ -12,7 +12,8 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = [{"equiped":True,"itemset": "wood","type": "Weapon","level":1,"rarity":"Common","damage":5}]
+userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5}]
+equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
 def kill():
@@ -42,13 +43,12 @@ def getitem():
         newrareity = "Legendary"
     elif irareity == 10000:#.01
         newrareity = "Mythical"
-    userinv.append({"equiped":False,"type":newtype,"level":1,"rarity": newrareity,"damage":1})
-    print(userinv)
+    userinv.append({"itemset":"wood","itemtype":newtype,"level":1,"rarity": newrareity,"damage":1})
 def getdamage():
     count = 0
-    for i in userinv:
-        if i["equiped"] == True:
-            return userinv[count]["damage"]
+    for i in equipeditems:
+        if i["itemtype"] == "Weapon":
+            return equipeditems[count]["damage"]
         count += 1
 damage = getdamage()
 test_font = pygame.font.Font('font/Pixeltype.ttf',50)
@@ -85,24 +85,23 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         attackcounter += 1
         if attackcounter >= 60:
             if selectedmob == "mob1num":
-                print(getdamage())
                 mobh1 -= getdamage()
                 attackcounter = 0
-                if mobh1 <= 0:
+                if mobh1 <= 0 and m1alive:
                     m1alive = False
                     kill()
             if selectedmob == "mob2num":
                 mobh2 -= getdamage()
                 print(mobh2)
                 attackcounter = 0
-                if mobh2 <= 0:
+                if mobh2 <= 0 and m2alive:
                     m2alive = False
                     kill()
             if selectedmob == "mob3num":
                 mobh3 -= getdamage()
                 print(mobh3)
                 attackcounter = 0
-                if mobh1 <= 0:
+                if mobh1 <= 0 and m3alive:
                     m3alive = False
                     kill()
         if not m1alive and not m2alive and not m3alive:
@@ -159,9 +158,12 @@ def inmap():
         screen.blit(regularfight,regularfight_rect)
         pygame.display.update()
         clock.tick(60)
+def displayitem():
+    slot1 = ""
 def ininventory():
     global arrow
     global arrow_rect
+    global coins
     inside = True
     while inside:
         mouse_pos = pygame.mouse.get_pos()
@@ -172,10 +174,17 @@ def ininventory():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
+#                 if slot1_rect.collidepoint(event.pos):
+#                     if 
+                
+        slot1_surf = pygame.image.load("weapons/testweapon.png").convert_alpha()
+        slot1_rect = slot1_surf.get_rect(topleft = (300,365))
         insideinventory = pygame.image.load("inventory.png").convert_alpha()
+        coins_surf = test_font.render("coins: "+str(coins),False,(64,64,64))
         screen.blit(insideinventory,(0,0))
         screen.blit(arrow,arrow_rect)
-        
+        screen.blit(coins_surf,(20,60))
+        screen.blit(slot1_surf,slot1_rect)
         pygame.display.update()
         clock.tick(60)
 inventoryicon = pygame.image.load("inventoryiconimage.png").convert_alpha()
