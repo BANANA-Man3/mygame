@@ -13,7 +13,7 @@ pygame.display.set_caption("Awesome game")
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
 userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5}]
-equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5}]
+equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
 def kill():
@@ -24,7 +24,15 @@ def kill():
     getitem()
     if ranitem == 1:
         getitem()
-
+def gethealth():
+    global health
+    newhealth = 100
+    for i in equipeditems:
+        if i["itemtype"] == "Weapon":
+            continue
+        else:
+            newhealth += i["damage"]
+    health = newhealth
 def getitem():
     irareity = random.randint(1,10000)
     itype = random.randint(0,4)
@@ -167,6 +175,7 @@ def ininventory():
     global coins
     inside = True
     while inside:
+        gethealth()
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -175,9 +184,9 @@ def ininventory():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
-#                 if slot1_rect.collidepoint(event.pos):
-#                     if 
-                
+                if slot1_rect.collidepoint(event.pos):
+                    print(mouse_pos)
+                    pygame.draw.rect(screen, (64,64,64), [1,430,60,60])
         slot1_surf = pygame.image.load("weapons/testweapon.png").convert_alpha()
         slot1_rect = slot1_surf.get_rect(topleft = (1120,430))
         insideinventory = pygame.image.load("inventory.png").convert_alpha()
@@ -200,6 +209,44 @@ def ininventory():
             y += 104
         pygame.draw.rect(screen, (64,64,64), [1120,430,60,60],  2)
         pygame.draw.rect(screen, (64,64,64), [890,430,60,60],  2)
+        
+        if slot1_rect.collidepoint(mouse_pos):
+            """
+            for i in mouse_pos:
+                if count == 1:
+                    count += 1
+                elif count == 2:
+                    x = i
+                    count += 1
+                elif count == 3:
+                    if i in numlist:
+                        x = x + i
+                        print(x)
+                elif count == 4:
+                    y = i
+                    count += 1
+                elif count == 5:
+                    if i in numlist:
+                        y = y + i
+                elif i == ",":
+                    count += 1
+                    print(i)
+                else:
+                    print(i)
+                print(i)
+            """
+            count = 1
+            for i in mouse_pos:
+                if count == 1:
+                    x = i
+                    count += 1
+                else:
+                    y = i
+                print(i)
+            print(mouse_pos)
+            x -= 120
+            print(y,x)
+            pygame.draw.rect(screen, (64,64,64), [x,y,60,60])
         pygame.display.update()
         clock.tick(60)
 inventoryicon = pygame.image.load("inventoryiconimage.png").convert_alpha()
