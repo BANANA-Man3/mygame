@@ -179,13 +179,27 @@ def ininventory():
 #                     if 
                 
         slot1_surf = pygame.image.load("weapons/testweapon.png").convert_alpha()
-        slot1_rect = slot1_surf.get_rect(topleft = (300,365))
+        slot1_rect = slot1_surf.get_rect(topleft = (1120,430))
         insideinventory = pygame.image.load("inventory.png").convert_alpha()
         coins_surf = test_font.render("coins: "+str(coins),False,(64,64,64))
         screen.blit(insideinventory,(0,0))
         screen.blit(arrow,arrow_rect)
         screen.blit(coins_surf,(20,60))
         screen.blit(slot1_surf,slot1_rect)
+        y = 278
+        x = 270
+        for i in range(7):
+            pygame.draw.line(screen,(64,64,64),(270,y),(705,y),2)
+            y += 62
+        for i in range(8):
+            pygame.draw.line(screen,(64,64,64),(x,278),(x,649),2)
+            x += 62
+        y = 275
+        for i in range(4):
+            pygame.draw.rect(screen, (64,64,64), [1004,y,60,60],  2)
+            y += 104
+        pygame.draw.rect(screen, (64,64,64), [1120,430,60,60],  2)
+        pygame.draw.rect(screen, (64,64,64), [890,430,60,60],  2)
         pygame.display.update()
         clock.tick(60)
 inventoryicon = pygame.image.load("inventoryiconimage.png").convert_alpha()
@@ -309,6 +323,5 @@ while True:
     screen.blit(quest,quest_rect)
     screen.blit(mapicon,mapicon_rect)
     screen.blit(inventoryicon,inventoryicon_rect)
-    
     pygame.display.update()
     clock.tick(60)
