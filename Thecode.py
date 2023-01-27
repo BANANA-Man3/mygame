@@ -150,6 +150,7 @@ def inmap():
                     inside = False
                 if regularfight_rect.collidepoint(event.pos):
                     fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
+                    inside = False
         insidemap = pygame.image.load("map.png").convert_alpha()
         regularfight = pygame.image.load("regularfighticon.png").convert_alpha()
         regularfight_rect = regularfight.get_rect(topleft = (535,365))
