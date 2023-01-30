@@ -12,7 +12,7 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5}]
+userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Mythical","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
@@ -100,14 +100,12 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                     kill()
             if selectedmob == "mob2num":
                 mobh2 -= getdamage()
-                print(mobh2)
                 attackcounter = 0
                 if mobh2 <= 0 and m2alive:
                     m2alive = False
                     kill()
             if selectedmob == "mob3num":
                 mobh3 -= getdamage()
-                print(mobh3)
                 attackcounter = 0
                 if mobh1 <= 0 and m3alive:
                     m3alive = False
@@ -167,8 +165,26 @@ def inmap():
         screen.blit(regularfight,regularfight_rect)
         pygame.display.update()
         clock.tick(60)
-def displayitem():
-    slot1 = ""
+def get_color(slot):
+    if userinv[slot]["rarity"] == "Common":
+         return (110,110,110)
+    if userinv[slot]["rarity"] == "Uncommon":
+         return (35,156,30)
+    if userinv[slot]["rarity"] == "Rare":
+         return (28,90,90)
+    if userinv[slot]["rarity"] == "Epic":
+         return (167,51,190)
+    if userinv[slot]["rarity"] == "Legendary":
+         return (255,232,41)
+    if userinv[slot]["rarity"] == "Mythical":
+         return (69,255,253)
+#find what pic to diplay
+def get_display(slot):
+    if userinv[slot]["itemtype"] == "Weapon":
+        return "weapons/testweapon.png"
+        
+def find_itempalce(slot,slot_rect):
+    ""
 def ininventory():
     global arrow
     global arrow_rect
@@ -185,7 +201,6 @@ def ininventory():
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
                 if slot1_rect.collidepoint(event.pos):
-                    print(mouse_pos)
                     pygame.draw.rect(screen, (64,64,64), [1,430,60,60])
         slot1_surf = pygame.image.load("weapons/testweapon.png").convert_alpha()
         slot1_rect = slot1_surf.get_rect(topleft = (1120,430))
@@ -209,32 +224,11 @@ def ininventory():
             y += 104
         pygame.draw.rect(screen, (64,64,64), [1120,430,60,60],  2)
         pygame.draw.rect(screen, (64,64,64), [890,430,60,60],  2)
-        
+        slot1_surf = pygame.image.load("weapons/testweapon.png").convert_alpha()
+        slot1_rect = slot1_surf.get_rect(topleft = (1120,430))
+        pygame.draw.rect(screen, get_color(0), [120,430,60,60])
+        screen.blit(slot1_surf,slot1_rect)
         if slot1_rect.collidepoint(mouse_pos):
-            """
-            for i in mouse_pos:
-                if count == 1:
-                    count += 1
-                elif count == 2:
-                    x = i
-                    count += 1
-                elif count == 3:
-                    if i in numlist:
-                        x = x + i
-                        print(x)
-                elif count == 4:
-                    y = i
-                    count += 1
-                elif count == 5:
-                    if i in numlist:
-                        y = y + i
-                elif i == ",":
-                    count += 1
-                    print(i)
-                else:
-                    print(i)
-                print(i)
-            """
             count = 1
             for i in mouse_pos:
                 if count == 1:
@@ -242,11 +236,34 @@ def ininventory():
                     count += 1
                 else:
                     y = i
-                print(i)
-            print(mouse_pos)
             x -= 120
             print(y,x)
             pygame.draw.rect(screen, (64,64,64), [x,y,60,60])
+            damage = userinv[0]["damage"]
+            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
+            x -= 50
+            y += 10
+            screen.blit(damage_surf,(x,y))
+        slot2_surf = pygame.image.load(get_display(0)).convert_alpha()
+        slot2_rect = slot1_surf.get_rect(topleft = (120,430))
+        pygame.draw.rect(screen, get_color(0), [120,430,60,60])
+        screen.blit(slot2_surf,slot2_rect)
+        if slot2_rect.collidepoint(mouse_pos):
+            count = 1
+            for i in mouse_pos:
+                if count == 1:
+                    x = i
+                    count += 1
+                else:
+                    y = i
+            x -= 120
+            print(y,x)
+            pygame.draw.rect(screen, (64,64,64), [x,y,60,60])
+            damage = userinv[0]["damage"]
+            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
+            x -= 50
+            y += 10
+            screen.blit(damage_surf,(x,y))
         pygame.display.update()
         clock.tick(60)
 inventoryicon = pygame.image.load("inventoryiconimage.png").convert_alpha()
