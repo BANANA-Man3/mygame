@@ -239,7 +239,7 @@ def ininventory():
         pygame.draw.rect(screen, get_color(0), [272,y,60,60])
         slot2_surf = pygame.image.load(get_display(1)).convert_alpha()
         slot2_rect = slot2_surf.get_rect(topleft = (334,y))
-        pygame.draw.rect(screen, get_color(0), [334,y,60,60])
+        pygame.draw.rect(screen, get_color(1), [334,y,60,60])
         slot3_surf = pygame.image.load(get_display(2)).convert_alpha()
         slot3_rect = slot3_surf.get_rect(topleft = (396,y))
         pygame.draw.rect(screen, get_color(2), [396,y,60,60])
