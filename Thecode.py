@@ -140,15 +140,15 @@ grass.fill('Green')
 #icons
 mapicon = pygame.image.load("mapiconimage.png").convert_alpha()
 mapicon_rect = mapicon.get_rect(topleft = (1235,665))
-def getequiped(n):
+def getequiped(n,e):
     c = 0
     if n["itemtype"] == "Weapon":
         for i in equipeditems:
             if i["itemtype"] == "Weapon":
                 userinv.append(equipeditems[c])
                 equipeditems.pop(c)
-                equipeditems.append(userinv[i])
-                equipeditems.pop(i)
+                equipeditems.append(n)
+                equipeditems.pop(e)
             c += 1  
     print(equipeditems)
 def inmap():
@@ -213,7 +213,9 @@ def ininventory():
                     inside = False
                 if slot1_rect.collidepoint(event.pos):
                     print(hi)
-                    getequiped(userinv[0]) 
+                    getequiped(userinv[0],0) 
+                    print("e")
+                    print(userinv)
         insideinventory = pygame.image.load("inventory.png").convert_alpha()
         coins_surf = test_font.render("coins: "+str(coins),False,(64,64,64))
         screen.blit(insideinventory,(0,0))
@@ -268,11 +270,11 @@ def ininventory():
                     count += 1
                 else:
                     y = i
-            x -= 120
+            x -= 220
             pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
             damage = userinv[0]["damage"]
             damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x -= 50
+            x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
         if slot2_rect.collidepoint(mouse_pos):
@@ -283,11 +285,11 @@ def ininventory():
                     count += 1
                 else:
                     y = i
-            x -= 120
+            x -= 220
             pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
             damage = userinv[0]["damage"]
             damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x -= 50
+            x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
         if slot3_rect.collidepoint(mouse_pos):
@@ -302,7 +304,7 @@ def ininventory():
             pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
             damage = userinv[0]["damage"]
             damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x -= 50
+            x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
         if slot4_rect.collidepoint(mouse_pos):
@@ -313,11 +315,11 @@ def ininventory():
                     count += 1
                 else:
                     y = i
-            x -= 120
+            x -= 220
             pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
             damage = userinv[0]["damage"]
             damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x -= 50
+            x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
         if slot5_rect.collidepoint(mouse_pos):
@@ -343,12 +345,12 @@ def ininventory():
                     count += 1
                 else:
                     y = i
-            x -= 120
+            x -= 220
             print(y,x)
             pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
             damage = userinv[0]["damage"]
             damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x -= 50
+            x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
         pygame.display.update()
