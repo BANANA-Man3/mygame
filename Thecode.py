@@ -12,7 +12,7 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
+userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
@@ -142,15 +142,16 @@ mapicon = pygame.image.load("mapiconimage.png").convert_alpha()
 mapicon_rect = mapicon.get_rect(topleft = (1235,665))
 def getequiped(n,e):
     c = 0
-    if n["itemtype"] == "Weapon":
-        for i in equipeditems:
-            if equipeditems[c]["itemtype"] == "Weapon":
-                userinv.append(equipeditems[c])
-                equipeditems.pop(c)
-                userinv.pop(e)
-                equipeditems.append(n)
-                
-            c += 1  
+    itype = n["itemtype"]
+    print(itype)
+    for i in equipeditems:
+        if equipeditems[c]["itemtype"] == itype:
+            userinv.append(equipeditems[c])
+            equipeditems.pop(c)
+            userinv.pop(e)
+            equipeditems.append(n)
+            
+        c += 1
     print(equipeditems)
 def inmap():
     global arrow
