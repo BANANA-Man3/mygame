@@ -12,7 +12,7 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
+userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
@@ -196,7 +196,12 @@ def get_display(slot):
         return "weapons/testweapon.png"
     if userinv[slot]["itemtype"] == "Helmet":
         return "helmets/testhelmet.png"
-        
+    if userinv[slot]["itemtype"] == "Chestplate":
+        return "chestplates/testchestplate.png"
+    if userinv[slot]["itemtype"] == "Leggings":
+        return "leggings/testleggings.png"
+    if userinv[slot]["itemtype"] == "Boots":
+        return "boots/testboots.png" 
 def find_itempalce(slot,slot_rect):
     ""
 def ininventory():
