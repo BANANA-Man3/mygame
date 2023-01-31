@@ -144,11 +144,12 @@ def getequiped(n,e):
     c = 0
     if n["itemtype"] == "Weapon":
         for i in equipeditems:
-            if i["itemtype"] == "Weapon":
+            if equipeditems[c]["itemtype"] == "Weapon":
                 userinv.append(equipeditems[c])
                 equipeditems.pop(c)
+                userinv.pop(e)
                 equipeditems.append(n)
-                equipeditems.pop(e)
+                
             c += 1  
     print(equipeditems)
 def inmap():
@@ -346,7 +347,6 @@ def ininventory():
                 else:
                     y = i
             x -= 220
-            print(y,x)
             pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
             damage = userinv[0]["damage"]
             damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
