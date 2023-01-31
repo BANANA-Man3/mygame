@@ -12,7 +12,7 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Mythical","damage":5}]
+userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
@@ -194,6 +194,8 @@ def get_color(slot):
 def get_display(slot):
     if userinv[slot]["itemtype"] == "Weapon":
         return "weapons/testweapon.png"
+    if userinv[slot]["itemtype"] == "Helmet":
+        return "helmets/testhelmet.png"
         
 def find_itempalce(slot,slot_rect):
     ""
