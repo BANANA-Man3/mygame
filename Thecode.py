@@ -13,7 +13,7 @@ pygame.display.set_caption("Awesome game")
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
 userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
-equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
+equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
 def kill():
@@ -144,14 +144,15 @@ def getequiped(n,e):
     c = 0
     itype = n["itemtype"]
     print(itype)
+    userinv.append(equipeditems[c])
+    userinv.pop(e)
     for i in equipeditems:
-        if equipeditems[c]["itemtype"] == itype:
-            userinv.append(equipeditems[c])
+        if equipeditems[c]["itemtype"] == itype: 
             equipeditems.pop(c)
-            userinv.pop(e)
             equipeditems.append(n)
             
         c += 1
+    time.sleep(.01)
     print(equipeditems)
 def inmap():
     global arrow
@@ -203,8 +204,65 @@ def get_display(slot):
         return "leggings/testleggings.png"
     if userinv[slot]["itemtype"] == "Boots":
         return "boots/testboots.png" 
+def get_equiped_display(slot):
+    if equipeditems[slot]["itemtype"] == "Weapon":
+        return "weapons/testweapon.png"
+    if equipeditems[slot]["itemtype"] == "Helmet":
+        return "helmets/testhelmet.png"
+    if equipeditems[slot]["itemtype"] == "Chestplate":
+        return "chestplates/testchestplate.png"
+    if equipeditems[slot]["itemtype"] == "Leggings":
+        return "leggings/testleggings.png"
+    if equipeditems[slot]["itemtype"] == "Boots":
+        return "boots/testboots.png" 
 def find_itempalce(slot,slot_rect):
     ""
+def equiped_color(slot):
+    if equipeditems[slot]["rarity"] == "Common":
+         return (110,110,110)
+    if equipeditems[slot]["rarity"] == "Uncommon":
+         return (35,156,30)
+    if equipeditems[slot]["rarity"] == "Rare":
+         return (28,90,90)
+    if equipeditems[slot]["rarity"] == "Epic":
+         return (167,51,190)
+    if equipeditems[slot]["rarity"] == "Legendary":
+         return (255,232,41)
+    if equipeditems[slot]["rarity"] == "Mythical":
+         return (69,255,253)
+def display_equiped():
+    count = 0
+    for i in equipeditems:
+        y = 275
+        if i["itemtype"] == "Helmet":
+            helmet_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
+            helmet_rect = helmet_surf.get_rect(topleft = (1004,y))
+            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            screen.blit(helmet_surf,helmet_rect)
+        y += 104
+        if i["itemtype"] == "Chestplate":
+            chestplate_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
+            chestplate_rect = chestplate_surf.get_rect(topleft = (1004,y))
+            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            screen.blit(chestplate_surf,chestplate_rect)
+        y += 104
+        if i["itemtype"] == "Leggings":
+            leggings_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
+            leggings_rect = leggings_surf.get_rect(topleft = (1004,y))
+            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            screen.blit(leggings_surf,leggings_rect)
+        y += 104
+        if i["itemtype"] == "Boots":
+            boots_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
+            boots_rect = boots_surf.get_rect(topleft = (1004,y))
+            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            screen.blit(boots_surf,boots_rect)
+        if i["itemtype"] == "Weapon":
+            weapon_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
+            weapon_rect = weapon_surf.get_rect(topleft = (1120,430))
+            pygame.draw.rect(screen, equiped_color(count), [1120,430,60,60])
+            screen.blit(weapon_surf,weapon_rect)
+        count += 1
 def ininventory():
     global arrow
     global arrow_rect
@@ -222,6 +280,10 @@ def ininventory():
                     inside = False
                 if slot1_rect.collidepoint(event.pos):
                     getequiped(userinv[0],0) 
+                    print("e")
+                    print(userinv)
+                if slot2_rect.collidepoint(event.pos):
+                    getequiped(userinv[1],1) 
                     print("e")
                     print(userinv)
         insideinventory = pygame.image.load("inventory.png").convert_alpha()
@@ -244,6 +306,7 @@ def ininventory():
         y = 280
         pygame.draw.rect(screen, (64,64,64), [1120,430,60,60],  2)
         pygame.draw.rect(screen, (64,64,64), [890,430,60,60],  2)
+        display_equiped()
         slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
         slot1_rect = slot1_surf.get_rect(topleft = (270,y))
         pygame.draw.rect(screen, get_color(0), [272,y,60,60])
