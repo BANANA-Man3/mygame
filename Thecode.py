@@ -213,7 +213,6 @@ def ininventory():
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
                 if slot1_rect.collidepoint(event.pos):
-                    print(hi)
                     getequiped(userinv[0],0) 
                     print("e")
                     print(userinv)
