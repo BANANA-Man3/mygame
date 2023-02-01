@@ -15,6 +15,7 @@ screen = pygame.display.set_mode((1275,700))
 userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
+userlevel = 1
 health = 100
 def kill():
     global coins
@@ -34,24 +35,32 @@ def gethealth():
             newhealth += i["damage"]
     health = newhealth
 def getitem():
+    global userlevel
     irareity = random.randint(1,10000)
     itype = random.randint(0,4)
     typelist = ["Helmet","Chestplate","Leggings","Boots","Weapon"]
     newtype = typelist[itype]
     raritylist = ["Common","Uncommon","Rare","Epic","Legendary","Mythical"]
+    if userlevel == 1:
+        newd = random.randint(2,7)
     if irareity <= 5000:#50
         newrareity = "Common"
     elif irareity <= 7500:#20
         newrareity = "Uncommon"
+        newd += 1
     elif irareity <= 9500:#12.5
         newrareity = "Rare"
+        newd += 2
     elif irareity <= 9900:#11.5
         newrareity = "Epic"
+        newd += 3
     elif irareity <= 9999:#.99
         newrareity = "Legendary"
+        newd += 4
     elif irareity == 10000:#.01
         newrareity = "Mythical"
-    userinv.append({"itemset":"wood","itemtype":newtype,"level":1,"rarity": newrareity,"damage":1})
+        newd += 5
+    userinv.append({"itemset":"wood","itemtype":newtype,"level":1,"rarity": newrareity,"damage":newd})
 def getdamage():
     count = 0
     for i in equipeditems:
