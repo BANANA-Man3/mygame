@@ -12,8 +12,8 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
-equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
+userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
+equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 health = 100
 def kill():
@@ -144,16 +144,25 @@ def getequiped(n,e):
     c = 0
     itype = n["itemtype"]
     print(itype)
-    userinv.append(equipeditems[c])
-    userinv.pop(e)
+    print('Before Equiped')
+    print(equipeditems)
+    print('Before Inv')
+    print(userinv)
+    
     for i in equipeditems:
-        if equipeditems[c]["itemtype"] == itype: 
+        print(c)
+        print(i)
+        if i["itemtype"] == itype:
+            userinv.append(i)
             equipeditems.pop(c)
-            equipeditems.append(n)
             
         c += 1
-    time.sleep(.01)
+    equipeditems.append(n)
+    userinv.pop(e)
+    print('After Equiped')
     print(equipeditems)
+    print('After Inv')
+    print(userinv)
 def inmap():
     global arrow
     global arrow_rect
@@ -279,12 +288,13 @@ def ininventory():
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
                 if slot1_rect.collidepoint(event.pos):
+                    print(userinv)
                     getequiped(userinv[0],0) 
                     print("e")
                     print(userinv)
                 if slot2_rect.collidepoint(event.pos):
                     getequiped(userinv[1],1) 
-                    print("e")
+                    print("e2")
                     print(userinv)
         insideinventory = pygame.image.load("inventory.png").convert_alpha()
         coins_surf = test_font.render("coins: "+str(coins),False,(64,64,64))
@@ -313,6 +323,7 @@ def ininventory():
         slot2_surf = pygame.image.load(get_display(1)).convert_alpha()
         slot2_rect = slot2_surf.get_rect(topleft = (334,y))
         pygame.draw.rect(screen, get_color(1), [334,y,60,60])
+        """ 
         slot3_surf = pygame.image.load(get_display(2)).convert_alpha()
         slot3_rect = slot3_surf.get_rect(topleft = (396,y))
         pygame.draw.rect(screen, get_color(2), [396,y,60,60])
@@ -323,14 +334,16 @@ def ininventory():
         slot5_rect = slot5_surf.get_rect(topleft = (520,y))
         pygame.draw.rect(screen, get_color(4), [520,y,60,60])
         slot6_surf = pygame.image.load(get_display(5)).convert_alpha()
-        slot6_rect = slot6_surf.get_rect(topleft = (582,y))
-        pygame.draw.rect(screen, get_color(5), [582,y,60,60])
+        slot6_rect = slot6_surf.get_rect(topleft = (582,y)) 
+        pygame.draw.rect(screen, get_color(5), [582,y,60,60])"""
         screen.blit(slot1_surf,slot1_rect)
         screen.blit(slot2_surf,slot2_rect)
+        """
         screen.blit(slot3_surf,slot3_rect)
         screen.blit(slot4_surf,slot4_rect)
         screen.blit(slot5_surf,slot5_rect)
         screen.blit(slot6_surf,slot6_rect)
+        """
         w = 200
         l = 200
         if slot1_rect.collidepoint(mouse_pos):
@@ -363,6 +376,7 @@ def ininventory():
             x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
+        """
         if slot3_rect.collidepoint(mouse_pos):
             count = 1
             for i in mouse_pos:
@@ -423,6 +437,7 @@ def ininventory():
             x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
+        """
         pygame.display.update()
         clock.tick(60)
 inventoryicon = pygame.image.load("inventoryiconimage.png").convert_alpha()
