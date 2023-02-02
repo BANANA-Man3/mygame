@@ -380,7 +380,7 @@ def ininventory():
                     y = i
             x -= 220
             pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-            damage = userinv[0]["damage"]
+            damage = userinv[1]["damage"]
             damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
             x += 10
             y += 10
