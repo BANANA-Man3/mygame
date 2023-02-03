@@ -12,7 +12,7 @@ pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
 #playerinventory 
-userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Common","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
+userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 coins = 0
 userlevel = 1
@@ -207,7 +207,7 @@ def get_color(slot):
     if userinv[slot]["rarity"] == "Epic":
          return (167,51,190)
     if userinv[slot]["rarity"] == "Legendary":
-         return (255,232,41)
+         return "backgroundcolors/Legendary_Background.png"
     if userinv[slot]["rarity"] == "Mythical":
          return (69,255,253)
 #find what pic to diplay
@@ -328,7 +328,8 @@ def ininventory():
         display_equiped()
         slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
         slot1_rect = slot1_surf.get_rect(topleft = (270,y))
-        pygame.draw.rect(screen, get_color(0), [272,y,60,60])
+        slot1_csurf = pygame.image.load(get_color(0)).convert_alpha()
+#         pygame.draw.rect(screen, get_color(0), [272,y,60,60])
         slot2_surf = pygame.image.load(get_display(1)).convert_alpha()
         slot2_rect = slot2_surf.get_rect(topleft = (334,y))
         pygame.draw.rect(screen, get_color(1), [334,y,60,60])
@@ -345,6 +346,7 @@ def ininventory():
         slot6_surf = pygame.image.load(get_display(5)).convert_alpha()
         slot6_rect = slot6_surf.get_rect(topleft = (582,y)) 
         pygame.draw.rect(screen, get_color(5), [582,y,60,60])"""
+        screen.blit(slot1_csurf,(272,280))
         screen.blit(slot1_surf,slot1_rect)
         screen.blit(slot2_surf,slot2_rect)
         """
