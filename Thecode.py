@@ -233,8 +233,19 @@ def get_equiped_display(slot):
         return "leggings/testleggings.png"
     if equipeditems[slot]["itemtype"] == "Boots":
         return "boots/testboots.png" 
-def find_itempalce(slot,slot_rect):
-    ""
+
+def find_itemplace():
+    surflist = []
+    rectlist = []
+    count = len(userinv)
+    for i in range(count):
+        surfname = "slot"+ str(i) +"surf"
+        surflist.append(surfname)
+        rectname = "slot"+ str(i) +"rect"
+        rectlist.append(surfname)
+    print(surflist)
+    print(rectlist)
+find_itemplace()
 def equiped_color(slot):
     if equipeditems[slot]["rarity"] == "Common":
          return (110,110,110)
