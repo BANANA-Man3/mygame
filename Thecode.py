@@ -11,14 +11,30 @@ pygame.font.init()
 pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
+#sky
+#sky = pygame.Surface((1275,500))
+sky = pygame.image.load("town/skyimage.png").convert_alpha()
+#town
+
+road = pygame.image.load("town/roadimage.png").convert_alpha()
+road_rect = road.get_rect(topleft = (0,550))
+
+grass = pygame.Surface((1275,50))
+grass.fill('Green')
+
+#icons
+mapicon = pygame.image.load("icons/mapiconimage.png").convert_alpha()
+mapicon_rect = mapicon.get_rect(topleft = (1235,665))
+
 #playerinventory
 userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Epic","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
-surflist = []
-rectlist = []
+surfdict = {}
+rectdict = {}
 coins = 0
 userlevel = 1
 health = 100
+
 def kill():
     global coins
     rancoins = random.randint(1,5)
@@ -138,19 +154,8 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         pygame.display.update()
         clock.tick(60)
 def won():
-    ""
-#sky
-#sky = pygame.Surface((1275,500))
-sky = pygame.image.load("town/skyimage.png").convert_alpha()
-#town
-road = pygame.image.load("town/roadimage.png").convert_alpha()
-road_rect = road.get_rect(topleft = (0,550))
+    print("you WIn!")
 
-grass = pygame.Surface((1275,50))
-grass.fill('Green')
-#icons
-mapicon = pygame.image.load("icons/mapiconimage.png").convert_alpha()
-mapicon_rect = mapicon.get_rect(topleft = (1235,665))
 def getequiped(n,e):
     c = 0
     itype = n["itemtype"]
@@ -179,7 +184,6 @@ def inmap():
     global arrow_rect
     inside = True
     while inside:
-
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -236,20 +240,21 @@ def get_equiped_display(slot):
     if equipeditems[slot]["itemtype"] == "Boots":
         return "boots/testboots.png" 
 
-def getlist():
-    global surflist
-    global rectlist
-    surflist = []
-    rectlist = []
+def getdict():
+    global surfdict
+    global rectdict
+    surfdict = {}
+    rectdict = {} 
     count = len(userinv)
     for i in range(count):
         surfname = "slot"+ str(i) +"surf"
-        surflist.append(surfname)
+        surfdict[surfname] = pygame.image.load(get_display(0)).convert_alpha()
         rectname = "slot"+ str(i) +"rect"
-        rectlist.append(surfname)
-    #print(surflist)
-    #print(rectlist)
-    makeslots()
+        rectdict[rectname] = surfdict[surfname].get_rect(topleft = (272,280))
+    print(surfdict)
+    print(rectdict)
+    screen.blit(surfdict["slot0surf"],rectdict["slot0rect"])
+getdict()
 def makeslots():
     y = 300
     slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
