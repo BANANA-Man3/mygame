@@ -247,13 +247,14 @@ def getdict():
     rectdict = [] 
     count = len(userinv)
     y = 280
+    x = 272
     for i in range(count):
         
         surfname = "slot"+ str(i) +"surf"
         surfdict.append(pygame.image.load(get_display(0)).convert_alpha())
         rectname = "slot"+ str(i) +"rect"
-        rectdict.append(surfdict[i].get_rect(topleft = (272,y)))
-        y += 62
+        rectdict.append(surfdict[i].get_rect(topleft = (x,y)))
+        x += 62
     print(surfdict)
     print(rectdict)
     count = len(userinv)
