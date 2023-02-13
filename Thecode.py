@@ -29,8 +29,8 @@ mapicon_rect = mapicon.get_rect(topleft = (1235,665))
 #playerinventory
 userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Epic","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
-surfdict = {}
-rectdict = {}
+surflist = []
+rectlist = []
 coins = 0
 userlevel = 1
 health = 100
@@ -241,25 +241,25 @@ def get_equiped_display(slot):
         return "boots/testboots.png" 
 
 def getdict():
-    global surfdict
-    global rectdict
-    surfdict = []
-    rectdict = [] 
+    global surflist
+    global rectlist
+    surflist = []
+    rectlist = [] 
     count = len(userinv)
     y = 280
     x = 272
     for i in range(count):
         
         surfname = "slot"+ str(i) +"surf"
-        surfdict.append(pygame.image.load(get_display(0)).convert_alpha())
+        surflist.append(pygame.image.load(get_display(0)).convert_alpha())
         rectname = "slot"+ str(i) +"rect"
-        rectdict.append(surfdict[i].get_rect(topleft = (x,y)))
+        rectlist.append(surflist[i].get_rect(topleft = (x,y)))
         x += 62
-    print(surfdict)
-    print(rectdict)
+    print(surflist)
+    print(rectlist)
     count = len(userinv)
     for i in range(count):
-        screen.blit(surfdict[i],rectdict[i])
+        screen.blit(surflist[i],rectlist[i])
         
 def makeslots():
     y = 300
