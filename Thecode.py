@@ -11,12 +11,30 @@ pygame.font.init()
 pygame.display.set_caption("Awesome game")
 #screen size
 screen = pygame.display.set_mode((1275,700))
+#sky
+#sky = pygame.Surface((1275,500))
+sky = pygame.image.load("town/skyimage.png").convert_alpha()
+#town
+
+road = pygame.image.load("town/roadimage.png").convert_alpha()
+road_rect = road.get_rect(topleft = (0,550))
+
+grass = pygame.Surface((1275,50))
+grass.fill('Green')
+
+#icons
+mapicon = pygame.image.load("icons/mapiconimage.png").convert_alpha()
+mapicon_rect = mapicon.get_rect(topleft = (1235,665))
+
 #playerinventory
 userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
-equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
+equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Epic","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
+surfdict = {}
+rectdict = {}
 coins = 0
 userlevel = 1
 health = 100
+
 def kill():
     global coins
     rancoins = random.randint(1,5)
@@ -122,7 +140,7 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         if not m1alive and not m2alive and not m3alive:
             won()
             inside = False
-        insidemap = pygame.image.load("fightseen.png").convert_alpha()
+        insidemap = pygame.image.load("map_scene/fightscene.png").convert_alpha()
         screen.blit(insidemap,(0,0))
         screen.blit(mobn1surf,(700,200))
         screen.blit(mobn2surf,(400,200))
@@ -136,19 +154,8 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         pygame.display.update()
         clock.tick(60)
 def won():
-    ""
-#sky
-#sky = pygame.Surface((1275,500))
-sky = pygame.image.load("skyimage.png").convert_alpha()
-#town
-road = pygame.image.load("roadimage.png").convert_alpha()
-road_rect = road.get_rect(topleft = (0,550))
+    print("you WIn!")
 
-grass = pygame.Surface((1275,50))
-grass.fill('Green')
-#icons
-mapicon = pygame.image.load("mapiconimage.png").convert_alpha()
-mapicon_rect = mapicon.get_rect(topleft = (1235,665))
 def getequiped(n,e):
     c = 0
     itype = n["itemtype"]
@@ -177,7 +184,6 @@ def inmap():
     global arrow_rect
     inside = True
     while inside:
-
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -189,8 +195,8 @@ def inmap():
                 if regularfight_rect.collidepoint(event.pos):
                     fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
                     inside = False
-        insidemap = pygame.image.load("map.png").convert_alpha()
-        regularfight = pygame.image.load("regularfighticon.png").convert_alpha()
+        insidemap = pygame.image.load("map_scene/map.png").convert_alpha()
+        regularfight = pygame.image.load("map_scene/regularfighticon.png").convert_alpha()
         regularfight_rect = regularfight.get_rect(topleft = (535,365))
         screen.blit(insidemap,(0,0))
         screen.blit(arrow,arrow_rect)
@@ -201,11 +207,11 @@ def get_color(slot):
     if userinv[slot]["rarity"] == "Common":
          return (110,110,110)
     if userinv[slot]["rarity"] == "Uncommon":
-         return (35,156,30)
+         return "backgroundcolors/Uncommon_Background.png"
     if userinv[slot]["rarity"] == "Rare":
-         return (28,90,90)
+         return "backgroundcolors/Rare_Background.png"
     if userinv[slot]["rarity"] == "Epic":
-         return (167,51,190)
+         return "backgroundcolors/Epic_Background.png"
     if userinv[slot]["rarity"] == "Legendary":
          return "backgroundcolors/Legendary_Background.png"
     if userinv[slot]["rarity"] == "Mythical":
@@ -233,19 +239,48 @@ def get_equiped_display(slot):
         return "leggings/testleggings.png"
     if equipeditems[slot]["itemtype"] == "Boots":
         return "boots/testboots.png" 
-def find_itempalce(slot,slot_rect):
-    ""
+
+def getdict():
+    global surfdict
+    global rectdict
+    surfdict = {}
+    rectdict = {} 
+    count = len(userinv)
+    for i in range(count):
+        surfname = "slot"+ str(i) +"surf"
+        surfdict[surfname] = pygame.image.load(get_display(0)).convert_alpha()
+        rectname = "slot"+ str(i) +"rect"
+        rectdict[rectname] = surfdict[surfname].get_rect(topleft = (272,280))
+    print(surfdict)
+    print(rectdict)
+    screen.blit(surfdict["slot0surf"],rectdict["slot0rect"])
+getdict()
+def makeslots():
+    y = 300
+    slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
+    slot1_rect = slot1_surf.get_rect(topleft = (272,y))
+    for i in surflist:
+        slot = vars()
+        slot[i] = pygame.image.load(get_display(0)).convert_alpha()
+    print(slot)
+    for i in rectlist:
+        rect = vars()
+        rect[i] = slot1_rect = slot1_surf.get_rect(topleft = (272,y))
+        y += 62
+    print(rect)
+    screen.blit(slot,rect)
+
 def equiped_color(slot):
     if equipeditems[slot]["rarity"] == "Common":
          return (110,110,110)
     if equipeditems[slot]["rarity"] == "Uncommon":
-         return (35,156,30)
+         return "backgroundcolors/Uncommon_Background.png"
     if equipeditems[slot]["rarity"] == "Rare":
-         return (28,90,90)
+         return "backgroundcolors/Rare_Background.png"
     if equipeditems[slot]["rarity"] == "Epic":
-         return (167,51,190)
+         return "backgroundcolors/Epic_Background.png"
     if equipeditems[slot]["rarity"] == "Legendary":
-         return (255,232,41)
+         return "backgroundcolors/Legendary_Background.png"
     if equipeditems[slot]["rarity"] == "Mythical":
          return (69,255,253)
 def display_equiped():
@@ -255,30 +290,35 @@ def display_equiped():
         if i["itemtype"] == "Helmet":
             helmet_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
             helmet_rect = helmet_surf.get_rect(topleft = (1004,y))
-            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            helmet_csurf = pygame.image.load(equiped_color(count)).convert_alpha()
+            screen.blit(helmet_csurf,helmet_rect)
             screen.blit(helmet_surf,helmet_rect)
         y += 104
         if i["itemtype"] == "Chestplate":
             chestplate_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
             chestplate_rect = chestplate_surf.get_rect(topleft = (1004,y))
-            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            chestplate_csurf = pygame.image.load(equiped_color(count)).convert_alpha()
+            screen.blit(chestplate_csurf,chestplate_rect)
             screen.blit(chestplate_surf,chestplate_rect)
         y += 104
         if i["itemtype"] == "Leggings":
             leggings_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
             leggings_rect = leggings_surf.get_rect(topleft = (1004,y))
-            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            leggings_csurf = pygame.image.load(equiped_color(count)).convert_alpha()
+            screen.blit(leggings_csurf,leggings_rect)
             screen.blit(leggings_surf,leggings_rect)
         y += 104
         if i["itemtype"] == "Boots":
             boots_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
             boots_rect = boots_surf.get_rect(topleft = (1004,y))
-            pygame.draw.rect(screen, equiped_color(count), [1004,y,60,60])
+            boots_csurf = pygame.image.load(equiped_color(count)).convert_alpha()
+            screen.blit(boots_csurf,boots_rect)
             screen.blit(boots_surf,boots_rect)
         if i["itemtype"] == "Weapon":
             weapon_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
             weapon_rect = weapon_surf.get_rect(topleft = (1120,430))
-            pygame.draw.rect(screen, equiped_color(count), [1120,430,60,60])
+            weapon_csurf = pygame.image.load(equiped_color(count)).convert_alpha()
+            screen.blit(weapon_csurf,weapon_rect)
             screen.blit(weapon_surf,weapon_rect)
         count += 1
 def ininventory():
@@ -327,12 +367,13 @@ def ininventory():
         pygame.draw.rect(screen, (64,64,64), [890,430,60,60],  2)
         display_equiped()
         slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
-        slot1_rect = slot1_surf.get_rect(topleft = (270,y))
+        slot1_rect = slot1_surf.get_rect(topleft = (272,y))
         slot1_csurf = pygame.image.load(get_color(0)).convert_alpha()
 #         pygame.draw.rect(screen, get_color(0), [272,y,60,60])
         slot2_surf = pygame.image.load(get_display(1)).convert_alpha()
         slot2_rect = slot2_surf.get_rect(topleft = (334,y))
-        pygame.draw.rect(screen, get_color(1), [334,y,60,60])
+        slot2_csurf = pygame.image.load(get_color(1)).convert_alpha()
+#       pygame.draw.rect(screen, get_color(1), [334,y,60,60])
         """ 
         slot3_surf = pygame.image.load(get_display(2)).convert_alpha()
         slot3_rect = slot3_surf.get_rect(topleft = (396,y))
@@ -346,7 +387,8 @@ def ininventory():
         slot6_surf = pygame.image.load(get_display(5)).convert_alpha()
         slot6_rect = slot6_surf.get_rect(topleft = (582,y)) 
         pygame.draw.rect(screen, get_color(5), [582,y,60,60])"""
-        screen.blit(slot1_csurf,(272,280))
+        screen.blit(slot1_csurf,slot1_rect)
+        screen.blit(slot2_csurf,slot2_rect)
         screen.blit(slot1_surf,slot1_rect)
         screen.blit(slot2_surf,slot2_rect)
         """
@@ -451,13 +493,13 @@ def ininventory():
         """
         pygame.display.update()
         clock.tick(60)
-inventoryicon = pygame.image.load("inventoryiconimage.png").convert_alpha()
+inventoryicon = pygame.image.load("icons/inventoryiconimage.png").convert_alpha()
 inventoryicon_rect = inventoryicon.get_rect(topleft = (1205,665))
 #arrows
-arrow = pygame.image.load("arrowimage.png").convert_alpha()
+arrow = pygame.image.load("icons/arrowimage.png").convert_alpha()
 arrow_rect = arrow.get_rect(topleft = (20,630))
 #buildings
-house = pygame.image.load("houseimage.png").convert_alpha()
+house = pygame.image.load("town/houseimage.png").convert_alpha()
 house_rect = house.get_rect(topleft = (1025,300))
 
 
@@ -474,13 +516,13 @@ def inhome():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
-        insidehouse = pygame.image.load("insidehouseimage.png").convert_alpha()
+        insidehouse = pygame.image.load("town/insidehouseimage.png").convert_alpha()
         screen.blit(insidehouse,(0,0))
         screen.blit(arrow,arrow_rect)
         
         pygame.display.update()
         clock.tick(60)
-merchant = pygame.image.load("merchantimage.png").convert_alpha()
+merchant = pygame.image.load("town/merchantimage.png").convert_alpha()
 merchant_rect = merchant.get_rect(topleft = (775,300))
 def inmerchantfunc():
     global arrow
@@ -495,13 +537,13 @@ def inmerchantfunc():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
-        insidemerchant = pygame.image.load("insidemerchantimage.png").convert_alpha()
+        insidemerchant = pygame.image.load("town/insidemerchantimage.png").convert_alpha()
         screen.blit(insidemerchant,(0,0))
         screen.blit(arrow,arrow_rect)
         
         pygame.display.update()
         clock.tick(60)
-petshop = pygame.image.load("petshopimage.png").convert_alpha()
+petshop = pygame.image.load("town/petshopimage.png").convert_alpha()
 petshop_rect = petshop.get_rect(topleft = (525,300))
 def inpetshopfunc():
     global arrow
@@ -516,16 +558,16 @@ def inpetshopfunc():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
-        petshopimage = pygame.image.load("insidepetshop.png").convert_alpha()
+        petshopimage = pygame.image.load("town/insidepetshop.png").convert_alpha()
         screen.blit(petshopimage,(0,0))
         screen.blit(arrow,arrow_rect)
         
         pygame.display.update()
         clock.tick(60)
-lab = pygame.image.load("skilltreeimage.png").convert_alpha()
+lab = pygame.image.load("town/skilltreeimage.png").convert_alpha()
 lab_rect = lab.get_rect(topleft = (275,300))
 
-quest = pygame.image.load("questsimage.png").convert_alpha()
+quest = pygame.image.load("town/questsimage.png").convert_alpha()
 quest_rect = quest.get_rect(topleft = (25,300))
 
 while True:
