@@ -124,7 +124,7 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         if not m1alive and not m2alive and not m3alive:
             won()
             inside = False
-        insidemap = pygame.image.load("map_scean/fightseen.png").convert_alpha()
+        insidemap = pygame.image.load("map_scene/fightscene.png").convert_alpha()
         screen.blit(insidemap,(0,0))
         screen.blit(mobn1surf,(700,200))
         screen.blit(mobn2surf,(400,200))
@@ -191,8 +191,8 @@ def inmap():
                 if regularfight_rect.collidepoint(event.pos):
                     fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
                     inside = False
-        insidemap = pygame.image.load("map_scean/map.png").convert_alpha()
-        regularfight = pygame.image.load("map_scean/regularfighticon.png").convert_alpha()
+        insidemap = pygame.image.load("map_scene/map.png").convert_alpha()
+        regularfight = pygame.image.load("map_scene/regularfighticon.png").convert_alpha()
         regularfight_rect = regularfight.get_rect(topleft = (535,365))
         screen.blit(insidemap,(0,0))
         screen.blit(arrow,arrow_rect)
