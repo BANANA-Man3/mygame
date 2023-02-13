@@ -243,18 +243,23 @@ def get_equiped_display(slot):
 def getdict():
     global surfdict
     global rectdict
-    surfdict = {}
-    rectdict = {} 
+    surfdict = []
+    rectdict = [] 
     count = len(userinv)
+    y = 280
     for i in range(count):
+        
         surfname = "slot"+ str(i) +"surf"
-        surfdict[surfname] = pygame.image.load(get_display(0)).convert_alpha()
+        surfdict.append(pygame.image.load(get_display(0)).convert_alpha())
         rectname = "slot"+ str(i) +"rect"
-        rectdict[rectname] = surfdict[surfname].get_rect(topleft = (272,280))
+        rectdict.append(surfdict[i].get_rect(topleft = (272,y)))
+        y += 62
     print(surfdict)
     print(rectdict)
-    screen.blit(surfdict["slot0surf"],rectdict["slot0rect"])
-getdict()
+    count = len(userinv)
+    for i in range(count):
+        screen.blit(surfdict[i],rectdict[i])
+        
 def makeslots():
     y = 300
     slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
@@ -561,7 +566,7 @@ def inpetshopfunc():
         petshopimage = pygame.image.load("town/insidepetshop.png").convert_alpha()
         screen.blit(petshopimage,(0,0))
         screen.blit(arrow,arrow_rect)
-        
+        getdict()
         pygame.display.update()
         clock.tick(60)
 lab = pygame.image.load("town/skilltreeimage.png").convert_alpha()
