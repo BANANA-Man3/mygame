@@ -31,6 +31,7 @@ userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Epic","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
 surflist = []
 rectlist = []
+backlist = []
 coins = 0
 userlevel = 1
 health = 100
@@ -243,6 +244,8 @@ def get_equiped_display(slot):
 def getdict():
     global surflist
     global rectlist
+    global backlist
+    backlist = []
     surflist = []
     rectlist = [] 
     count = len(userinv)
@@ -251,16 +254,18 @@ def getdict():
     for i in range(count):
         
         surfname = "slot"+ str(i) +"surf"
-        surflist.append(pygame.image.load(get_display(0)).convert_alpha())
+        surflist.append(pygame.image.load(get_display(i)).convert_alpha())
         rectname = "slot"+ str(i) +"rect"
         rectlist.append(surflist[i].get_rect(topleft = (x,y)))
+        backname = "slot"+ str(i) + "_csurf"
+        backlist.append(pygame.image.load(get_color(i)).convert_alpha())
         x += 62
     print(surflist)
     print(rectlist)
     count = len(userinv)
     for i in range(count):
+        screen.blit(backlist[i],rectlist[i])
         screen.blit(surflist[i],rectlist[i])
-        
 def makeslots():
     y = 300
     slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
