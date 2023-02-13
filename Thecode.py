@@ -14,6 +14,8 @@ screen = pygame.display.set_mode((1275,700))
 #playerinventory
 userinv = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Uncommon","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Legendary","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Mythical","damage":5}]
 equipeditems = [{"itemset": "wood","itemtype": "Weapon","level":1,"rarity":"Rare","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Epic","damage":5}]#,{"itemset": "wood","itemtype": "Boots","level":1,"rarity":"Epic","damage":5},{"itemset": "wood","itemtype": "Leggings","level":1,"rarity":"Mythical","damage":5},{"itemset": "wood","itemtype": "Chestplate","level":1,"rarity":"Uncommon","damage":5},{"itemset": "wood","itemtype": "Helmet","level":1,"rarity":"Common","damage":5}]
+surflist = []
+rectlist = []
 coins = 0
 userlevel = 1
 health = 100
@@ -234,7 +236,9 @@ def get_equiped_display(slot):
     if equipeditems[slot]["itemtype"] == "Boots":
         return "boots/testboots.png" 
 
-def find_itemplace():
+def getlist():
+    global surflist
+    global rectlist
     surflist = []
     rectlist = []
     count = len(userinv)
@@ -243,9 +247,24 @@ def find_itemplace():
         surflist.append(surfname)
         rectname = "slot"+ str(i) +"rect"
         rectlist.append(surfname)
-    print(surflist)
-    print(rectlist)
-find_itemplace()
+    #print(surflist)
+    #print(rectlist)
+    makeslots()
+def makeslots():
+    y = 300
+    slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
+    slot1_rect = slot1_surf.get_rect(topleft = (272,y))
+    for i in surflist:
+        slot = vars()
+        slot[i] = pygame.image.load(get_display(0)).convert_alpha()
+    print(slot)
+    for i in rectlist:
+        rect = vars()
+        rect[i] = slot1_rect = slot1_surf.get_rect(topleft = (272,y))
+        y += 62
+    print(rect)
+    screen.blit(slot,rect)
+
 def equiped_color(slot):
     if equipeditems[slot]["rarity"] == "Common":
          return (110,110,110)
