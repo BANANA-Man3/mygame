@@ -206,7 +206,7 @@ def inmap():
         clock.tick(60)
 def get_color(slot):
     if userinv[slot]["rarity"] == "Common":
-         return (110,110,110)
+         return "backgroundcolors/Common_Background.png"
     if userinv[slot]["rarity"] == "Uncommon":
          return "backgroundcolors/Uncommon_Background.png"
     if userinv[slot]["rarity"] == "Rare":
@@ -216,7 +216,7 @@ def get_color(slot):
     if userinv[slot]["rarity"] == "Legendary":
          return "backgroundcolors/Legendary_Background.png"
     if userinv[slot]["rarity"] == "Mythical":
-         return (69,255,253)
+         return "backgroundcolors/Mythic_Background.png"
 #find what pic to diplay
 def get_display(slot):
     if userinv[slot]["itemtype"] == "Weapon":
@@ -251,6 +251,7 @@ def getdict():
     count = len(userinv)
     y = 280
     x = 272
+    nextline = 0
     for i in range(count):
         
         surfname = "slot"+ str(i) +"surf"
@@ -260,6 +261,11 @@ def getdict():
         backname = "slot"+ str(i) + "_csurf"
         backlist.append(pygame.image.load(get_color(i)).convert_alpha())
         x += 62
+        nextline += 1
+        if nextline == 7:
+            x = 272
+            y += 62
+            nextline = 0
     print(surflist)
     print(rectlist)
     count = len(userinv)
@@ -283,7 +289,7 @@ def makeslots():
 
 def equiped_color(slot):
     if equipeditems[slot]["rarity"] == "Common":
-         return (110,110,110)
+         return "backgroundcolors/Common_Background.png"
     if equipeditems[slot]["rarity"] == "Uncommon":
          return "backgroundcolors/Uncommon_Background.png"
     if equipeditems[slot]["rarity"] == "Rare":
@@ -293,7 +299,7 @@ def equiped_color(slot):
     if equipeditems[slot]["rarity"] == "Legendary":
          return "backgroundcolors/Legendary_Background.png"
     if equipeditems[slot]["rarity"] == "Mythical":
-         return (69,255,253)
+         return "backgroundcolors/Mythic_Background.png"
 def display_equiped():
     count = 0
     for i in equipeditems:
@@ -402,6 +408,7 @@ def ininventory():
         screen.blit(slot2_csurf,slot2_rect)
         screen.blit(slot1_surf,slot1_rect)
         screen.blit(slot2_surf,slot2_rect)
+        getdict()
         """
         screen.blit(slot3_surf,slot3_rect)
         screen.blit(slot4_surf,slot4_rect)
@@ -410,21 +417,24 @@ def ininventory():
         """
         w = 200
         l = 200
-        if slot1_rect.collidepoint(mouse_pos):
-            count = 1
-            for i in mouse_pos:
-                if count == 1:
-                    x = i
-                    count += 1
-                else:
-                    y = i
-            x -= 220
-            pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-            damage = userinv[0]["damage"]
-            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x += 10
-            y += 10
-            screen.blit(damage_surf,(x,y))
+        for index in range(len(userinv)):
+            if rectlist[index].collidepoint(mouse_pos):
+                count = 1
+                for i in mouse_pos:
+                    if count == 1:
+                        x = i
+                        count += 1
+                    else:
+                        y = i
+                x -= 220
+                pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
+                print("index ",index)
+                damage = userinv[index]["damage"]
+                damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
+                x += 10
+                y += 10
+                screen.blit(damage_surf,(x,y))
+        """
         if slot2_rect.collidepoint(mouse_pos):
             count = 1
             for i in mouse_pos:
@@ -440,7 +450,6 @@ def ininventory():
             x += 10
             y += 10
             screen.blit(damage_surf,(x,y))
-        """
         if slot3_rect.collidepoint(mouse_pos):
             count = 1
             for i in mouse_pos:
