@@ -160,15 +160,8 @@ def won():
 def getequiped(n,e):
     c = 0
     itype = n["itemtype"]
-    print(itype)
-    print('Before Equiped')
-    print(equipeditems)
-    print('Before Inv')
-    print(userinv)
     
     for i in equipeditems:
-        print(c)
-        print(i)
         if i["itemtype"] == itype:
             userinv.append(i)
             equipeditems.pop(c)
@@ -176,10 +169,6 @@ def getequiped(n,e):
         c += 1
     equipeditems.append(n)
     userinv.pop(e)
-    print('After Equiped')
-    print(equipeditems)
-    print('After Inv')
-    print(userinv)
 def inmap():
     global arrow
     global arrow_rect
@@ -253,12 +242,8 @@ def getdict():
     x = 272
     nextline = 0
     for i in range(count):
-        
-        surfname = "slot"+ str(i) +"surf"
         surflist.append(pygame.image.load(get_display(i)).convert_alpha())
-        rectname = "slot"+ str(i) +"rect"
         rectlist.append(surflist[i].get_rect(topleft = (x,y)))
-        backname = "slot"+ str(i) + "_csurf"
         backlist.append(pygame.image.load(get_color(i)).convert_alpha())
         x += 62
         nextline += 1
@@ -266,27 +251,10 @@ def getdict():
             x = 272
             y += 62
             nextline = 0
-    print(surflist)
-    print(rectlist)
     count = len(userinv)
     for i in range(count):
         screen.blit(backlist[i],rectlist[i])
         screen.blit(surflist[i],rectlist[i])
-def makeslots():
-    y = 300
-    slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
-    slot1_rect = slot1_surf.get_rect(topleft = (272,y))
-    for i in surflist:
-        slot = vars()
-        slot[i] = pygame.image.load(get_display(0)).convert_alpha()
-    print(slot)
-    for i in rectlist:
-        rect = vars()
-        rect[i] = slot1_rect = slot1_surf.get_rect(topleft = (272,y))
-        y += 62
-    print(rect)
-    screen.blit(slot,rect)
-
 def equiped_color(slot):
     if equipeditems[slot]["rarity"] == "Common":
          return "backgroundcolors/Common_Background.png"
@@ -353,15 +321,9 @@ def ininventory():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
-                if slot1_rect.collidepoint(event.pos):
-                    print(userinv)
-                    getequiped(userinv[0],0) 
-                    print("e")
-                    print(userinv)
-                if slot2_rect.collidepoint(event.pos):
-                    getequiped(userinv[1],1) 
-                    print("e2")
-                    print(userinv)
+                for index in range(len(userinv)):
+                    if rectlist[index].collidepoint(mouse_pos):
+                        getequiped(userinv[index],index) 
         insideinventory = pygame.image.load("inventory.png").convert_alpha()
         coins_surf = test_font.render("coins: "+str(coins),False,(64,64,64))
         screen.blit(insideinventory,(0,0))
@@ -383,38 +345,7 @@ def ininventory():
         pygame.draw.rect(screen, (64,64,64), [1120,430,60,60],  2)
         pygame.draw.rect(screen, (64,64,64), [890,430,60,60],  2)
         display_equiped()
-        slot1_surf = pygame.image.load(get_display(0)).convert_alpha()
-        slot1_rect = slot1_surf.get_rect(topleft = (272,y))
-        slot1_csurf = pygame.image.load(get_color(0)).convert_alpha()
-#         pygame.draw.rect(screen, get_color(0), [272,y,60,60])
-        slot2_surf = pygame.image.load(get_display(1)).convert_alpha()
-        slot2_rect = slot2_surf.get_rect(topleft = (334,y))
-        slot2_csurf = pygame.image.load(get_color(1)).convert_alpha()
-#       pygame.draw.rect(screen, get_color(1), [334,y,60,60])
-        """ 
-        slot3_surf = pygame.image.load(get_display(2)).convert_alpha()
-        slot3_rect = slot3_surf.get_rect(topleft = (396,y))
-        pygame.draw.rect(screen, get_color(2), [396,y,60,60])
-        slot4_surf = pygame.image.load(get_display(3)).convert_alpha()
-        slot4_rect = slot4_surf.get_rect(topleft = (458,y))
-        pygame.draw.rect(screen, get_color(3), [458,y,60,60])
-        slot5_surf = pygame.image.load(get_display(4)).convert_alpha()
-        slot5_rect = slot5_surf.get_rect(topleft = (520,y))
-        pygame.draw.rect(screen, get_color(4), [520,y,60,60])
-        slot6_surf = pygame.image.load(get_display(5)).convert_alpha()
-        slot6_rect = slot6_surf.get_rect(topleft = (582,y)) 
-        pygame.draw.rect(screen, get_color(5), [582,y,60,60])"""
-        screen.blit(slot1_csurf,slot1_rect)
-        screen.blit(slot2_csurf,slot2_rect)
-        screen.blit(slot1_surf,slot1_rect)
-        screen.blit(slot2_surf,slot2_rect)
         getdict()
-        """
-        screen.blit(slot3_surf,slot3_rect)
-        screen.blit(slot4_surf,slot4_rect)
-        screen.blit(slot5_surf,slot5_rect)
-        screen.blit(slot6_surf,slot6_rect)
-        """
         w = 200
         l = 200
         for index in range(len(userinv)):
@@ -428,89 +359,11 @@ def ininventory():
                         y = i
                 x -= 220
                 pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-                print("index ",index)
                 damage = userinv[index]["damage"]
                 damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
                 x += 10
                 y += 10
-                screen.blit(damage_surf,(x,y))
-        """
-        if slot2_rect.collidepoint(mouse_pos):
-            count = 1
-            for i in mouse_pos:
-                if count == 1:
-                    x = i
-                    count += 1
-                else:
-                    y = i
-            x -= 220
-            pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-            damage = userinv[1]["damage"]
-            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x += 10
-            y += 10
-            screen.blit(damage_surf,(x,y))
-        if slot3_rect.collidepoint(mouse_pos):
-            count = 1
-            for i in mouse_pos:
-                if count == 1:
-                    x = i
-                    count += 1
-                else:
-                    y = i
-            x -= 120
-            pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-            damage = userinv[0]["damage"]
-            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x += 10
-            y += 10
-            screen.blit(damage_surf,(x,y))
-        if slot4_rect.collidepoint(mouse_pos):
-            count = 1
-            for i in mouse_pos:
-                if count == 1:
-                    x = i
-                    count += 1
-                else:
-                    y = i
-            x -= 220
-            pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-            damage = userinv[0]["damage"]
-            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x += 10
-            y += 10
-            screen.blit(damage_surf,(x,y))
-        if slot5_rect.collidepoint(mouse_pos):
-            count = 1
-            for i in mouse_pos:
-                if count == 1:
-                    x = i
-                    count += 1
-                else:
-                    y = i
-            x -= 220
-            pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-            damage = userinv[0]["damage"]
-            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x += 10
-            y += 10
-            screen.blit(damage_surf,(x,y))
-        if slot6_rect.collidepoint(mouse_pos):
-            count = 1
-            for i in mouse_pos:
-                if count == 1:
-                    x = i
-                    count += 1
-                else:
-                    y = i
-            x -= 220
-            pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
-            damage = userinv[0]["damage"]
-            damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
-            x += 10
-            y += 10
-            screen.blit(damage_surf,(x,y))
-        """
+                screen.blit(damage_surf,(x,y))  
         pygame.display.update()
         clock.tick(60)
 inventoryicon = pygame.image.load("icons/inventoryiconimage.png").convert_alpha()
@@ -622,7 +475,6 @@ while True:
             if event.key == pygame.K_i:
                 ininventory()
 
-#     print(hi)
     screen.blit(sky,(0,0))
     screen.blit(road,road_rect)
     screen.blit(grass,(0,650))
