@@ -374,8 +374,6 @@ arrow_rect = arrow.get_rect(topleft = (20,630))
 #buildings
 house = pygame.image.load("town/houseimage.png").convert_alpha()
 house_rect = house.get_rect(topleft = (1025,300))
-
-
 def inhome():
     global arrow
     global arrow_rect
