@@ -41,7 +41,6 @@ def kill():
     rancoins = random.randint(1,5)
     ranitem = random.randint(1,3)
     coins += rancoins
-    getitem()
     if ranitem == 1:
         getitem()
 def gethealth():
@@ -156,7 +155,6 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         clock.tick(60)
 def won():
     print("you WIn!")
-
 def getequiped(n,e):
     c = 0
     itype = n["itemtype"]
@@ -229,7 +227,6 @@ def get_equiped_display(slot):
         return "leggings/testleggings.png"
     if equipeditems[slot]["itemtype"] == "Boots":
         return "boots/testboots.png" 
-
 def getdict():
     global surflist
     global rectlist
@@ -360,7 +357,10 @@ def ininventory():
                 x -= 220
                 pygame.draw.rect(screen, (64,64,64), [x,y,w,l])
                 damage = userinv[index]["damage"]
-                damage_surf = test_font.render("damage: "+str(damage),False,(104,255,64))
+                if userinv[index]["itemtype"] == "Weapon":
+                    damage_surf = test_font.render("Damage: "+str(damage),False,(104,255,64))
+                else:
+                    damage_surf = test_font.render("Health: "+str(damage),False,(104,255,64))
                 x += 10
                 y += 10
                 screen.blit(damage_surf,(x,y))  
