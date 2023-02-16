@@ -41,8 +41,10 @@ def kill():
     rancoins = random.randint(1,5)
     ranitem = random.randint(1,3)
     coins += rancoins
+    newitem = "none"
     if ranitem == 1:
-        getitem()
+        newitem = getitem()
+    return rancoins, newitem
 def gethealth():
     global health
     newhealth = 100
@@ -79,6 +81,7 @@ def getitem():
         newrareity = "Mythical"
         newd += 5
     userinv.append({"itemset":"wood","itemtype":newtype,"level":1,"rarity": newrareity,"damage":newd})
+    return {"itemset":"wood","itemtype":newtype,"level":1,"rarity": newrareity,"damage":newd}
 def getdamage():
     count = 0
     for i in equipeditems:
@@ -124,19 +127,31 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                 attackcounter = 0
                 if mobh1 <= 0 and m1alive:
                     m1alive = False
-                    kill()
+                    m1coins, m1item = kill()
+                    addcoins = ("+",m1coins,"coins")
+                    m1coinsurf = test_font.render(str(addcoins),False,(64,64,64))
+                    if m1item != "none":
+                        m1itemsurf = get_newitem_display(m1item)
             if selectedmob == "mob2num":
                 mobh2 -= getdamage()
                 attackcounter = 0
                 if mobh2 <= 0 and m2alive:
                     m2alive = False
-                    kill()
+                    m2coins, m2item = kill()
+                    addcoins = ("+",m2coins,"coins")
+                    m2coinsurf = test_font.render(str(addcoins),False,(64,64,64))
+                    if m2item != "none":
+                        m2itemsurf = get_newitem_display(m2item)
             if selectedmob == "mob3num":
                 mobh3 -= getdamage()
                 attackcounter = 0
                 if mobh1 <= 0 and m3alive:
                     m3alive = False
-                    kill()
+                    m3coins, m3item = kill()
+                    addcoins = ("+",m3coins,"coins")
+                    m3coinsurf = test_font.render(str(addcoins),False,(64,64,64))
+                    if m3item != "none":
+                        m3itemsurf = get_newitem_display(m3item)
         if not m1alive and not m2alive and not m3alive:
             won()
             inside = False
@@ -145,6 +160,18 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
         screen.blit(mobn1surf,(700,200))
         screen.blit(mobn2surf,(400,200))
         screen.blit(mobn3surf,(1000,200))
+        if not m1alive:
+            screen.blit(m1coinsurf,mob1_rect)
+            if m1item != "none":
+                screen.blit(m1itemsurf,(200,300))
+        if not m2alive:
+            screen.blit(m2coinsurf,mob2_rect)
+            if m2item != "none":
+                screen.blit(m2itemsurf,(200,500))
+        if not m3alive:
+            screen.blit(m3coinsurf,mob3_rect)
+            if m3item != "none":
+                screen.blit(m3itemsurf,(200,400))
         if mobh1 >= 0:
             screen.blit(mob1,mob1_rect)
         if mobh2 >= 0:
@@ -205,6 +232,17 @@ def get_color(slot):
     if userinv[slot]["rarity"] == "Mythical":
          return "backgroundcolors/Mythic_Background.png"
 #find what pic to diplay
+def get_newitem_display(newitem):
+    if newitem["itemtype"] == "Weapon":
+        return "weapons/testweapon.png"
+    if newitem["itemtype"]== "Helmet":
+        return "helmets/testhelmet.png"
+    if newitem["itemtype"] == "Chestplate":
+        return "chestplates/testchestplate.png"
+    if newitem["itemtype"]== "Leggings":
+        return "leggings/testleggings.png"
+    if newitem["itemtype"] == "Boots":
+        return "boots/testboots.png" 
 def get_display(slot):
     if userinv[slot]["itemtype"] == "Weapon":
         return "weapons/testweapon.png"
