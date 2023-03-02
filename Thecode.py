@@ -132,6 +132,8 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                     m1coinsurf = test_font.render(str(addcoins),False,(64,64,64))
                     if m1item != "none":
                         m1itemsurf = get_newitem_display(m1item)
+                        m1itemsurf = pygame.image.load(m1itemsurf).convert_alpha()
+                        print(m1itemsurf)
             if selectedmob == "mob2num":
                 mobh2 -= getdamage()
                 attackcounter = 0
@@ -142,6 +144,8 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                     m2coinsurf = test_font.render(str(addcoins),False,(64,64,64))
                     if m2item != "none":
                         m2itemsurf = get_newitem_display(m2item)
+                        m2itemsurf = pygame.image.load(m2itemsurf).convert_alpha()
+                        print(m2itemsurf)
             if selectedmob == "mob3num":
                 mobh3 -= getdamage()
                 attackcounter = 0
@@ -152,6 +156,8 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
                     m3coinsurf = test_font.render(str(addcoins),False,(64,64,64))
                     if m3item != "none":
                         m3itemsurf = get_newitem_display(m3item)
+                        m1itemsurf = pygame.image.load(m3itemsurf).convert_alpha()
+                        print(m3itemsurf)
         if not m1alive and not m2alive and not m3alive:
             won()
             inside = False
@@ -233,6 +239,7 @@ def get_color(slot):
          return "backgroundcolors/Mythic_Background.png"
 #find what pic to diplay
 def get_newitem_display(newitem):
+    print(newitem)
     if newitem["itemtype"] == "Weapon":
         return "weapons/testweapon.png"
     if newitem["itemtype"]== "Helmet":
@@ -470,7 +477,6 @@ def inpetshopfunc():
         petshopimage = pygame.image.load("town/insidepetshop.png").convert_alpha()
         screen.blit(petshopimage,(0,0))
         screen.blit(arrow,arrow_rect)
-        getdict()
         pygame.display.update()
         clock.tick(60)
 lab = pygame.image.load("town/skilltreeimage.png").convert_alpha()
