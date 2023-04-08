@@ -149,15 +149,16 @@ def fight(mobn1,mobn2,mobn3,mobd1,mobd2,mobd3,mobh1,mobh2,mobh3):
             if selectedmob == "mob3num":
                 mobh3 -= getdamage()
                 attackcounter = 0
-                if mobh1 <= 0 and m3alive:
+                if mobh3 <= 0 and m3alive:
                     m3alive = False
                     m3coins, m3item = kill()
                     addcoins = ("+",m3coins,"coins")
                     m3coinsurf = test_font.render(str(addcoins),False,(64,64,64))
                     if m3item != "none":
                         m3itemsurf = get_newitem_display(m3item)
-                        m1itemsurf = pygame.image.load(m3itemsurf).convert_alpha()
+                        m3itemsurf = pygame.image.load(m3itemsurf).convert_alpha()
                         print(m3itemsurf)
+            print(m1alive, m2alive ,m3alive)
         if not m1alive and not m2alive and not m3alive:
             won()
             inside = False
@@ -214,7 +215,7 @@ def inmap():
                 if arrow_rect.collidepoint(event.pos):
                     inside = False
                 if regularfight_rect.collidepoint(event.pos):
-                    fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
+                    level1_1()
                     inside = False
         insidemap = pygame.image.load("map_scene/map.png").convert_alpha()
         regularfight = pygame.image.load("map_scene/regularfighticon.png").convert_alpha()
@@ -530,3 +531,9 @@ while True:
     screen.blit(inventoryicon,inventoryicon_rect)
     pygame.display.update()
     clock.tick(60)
+    
+#LEVELS################################
+    def level1_1():
+        fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
+        fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
+        fight("joe biden","jeffery bezos","bill clinton",1,1,1,5,5,5)
