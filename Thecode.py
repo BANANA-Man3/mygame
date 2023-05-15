@@ -227,17 +227,17 @@ def inmap():
         clock.tick(60)
 def get_color(slot):
     if userinv[slot]["rarity"] == "Common":
-         return "backgroundcolors/Common_Background.png"
+        return "backgroundcolors/Common_Background.png"
     if userinv[slot]["rarity"] == "Uncommon":
-         return "backgroundcolors/Uncommon_Background.png"
+        return "backgroundcolors/Uncommon_Background.png"
     if userinv[slot]["rarity"] == "Rare":
-         return "backgroundcolors/Rare_Background.png"
+        return "backgroundcolors/Rare_Background.png"
     if userinv[slot]["rarity"] == "Epic":
-         return "backgroundcolors/Epic_Background.png"
+        return "backgroundcolors/Epic_Background.png"
     if userinv[slot]["rarity"] == "Legendary":
-         return "backgroundcolors/Legendary_Background.png"
+        return "backgroundcolors/Legendary_Background.png"
     if userinv[slot]["rarity"] == "Mythical":
-         return "backgroundcolors/Mythic_Background.png"
+        return "backgroundcolors/Mythic_Background.png"
 #find what pic to diplay
 def get_newitem_display(newitem):
     print(newitem)
@@ -300,19 +300,21 @@ def getdict():
         screen.blit(surflist[i],rectlist[i])
 def equiped_color(slot):
     if equipeditems[slot]["rarity"] == "Common":
-         return "backgroundcolors/Common_Background.png"
+        return "backgroundcolors/Common_Background.png"
     if equipeditems[slot]["rarity"] == "Uncommon":
-         return "backgroundcolors/Uncommon_Background.png"
+        return "backgroundcolors/Uncommon_Background.png"
     if equipeditems[slot]["rarity"] == "Rare":
-         return "backgroundcolors/Rare_Background.png"
+        return "backgroundcolors/Rare_Background.png"
     if equipeditems[slot]["rarity"] == "Epic":
-         return "backgroundcolors/Epic_Background.png"
+        return "backgroundcolors/Epic_Background.png"
     if equipeditems[slot]["rarity"] == "Legendary":
-         return "backgroundcolors/Legendary_Background.png"
+        return "backgroundcolors/Legendary_Background.png"
     if equipeditems[slot]["rarity"] == "Mythical":
-         return "backgroundcolors/Mythic_Background.png"
+        return "backgroundcolors/Mythic_Background.png"
 def display_equiped():
     count = 0
+    w = 200
+    l = 200
     for i in equipeditems:
         y = 275
         if i["itemtype"] == "Helmet":
@@ -321,6 +323,7 @@ def display_equiped():
             helmet_csurf = pygame.image.load(equiped_color(count)).convert_alpha()
             screen.blit(helmet_csurf,helmet_rect)
             screen.blit(helmet_surf,helmet_rect)
+
         y += 104
         if i["itemtype"] == "Chestplate":
             chestplate_surf = pygame.image.load(get_equiped_display(count)).convert_alpha()
@@ -348,6 +351,7 @@ def display_equiped():
             weapon_csurf = pygame.image.load(equiped_color(count)).convert_alpha()
             screen.blit(weapon_csurf,weapon_rect)
             screen.blit(weapon_surf,weapon_rect)
+        
         count += 1
 def ininventory():
     global arrow
@@ -409,9 +413,21 @@ def ininventory():
                     damage_surf = test_font.render("Health: "+str(damage),False,(104,255,64))
                 x += 10
                 y += 10
-                screen.blit(damage_surf,(x,y))  
+                screen.blit(damage_surf,(x,y))
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:   
+                        if event.key == pygame.K_s:
+                            print(index)
+                            sell(index)
+                            
         pygame.display.update()
         clock.tick(60)
+selllistamount = [
+    "common"]
+def sell(itemnum)
+
+    userinv.pop(itemnum)
+    
 inventoryicon = pygame.image.load("icons/inventoryiconimage.png").convert_alpha()
 inventoryicon_rect = inventoryicon.get_rect(topleft = (1205,665))
 #arrows
@@ -485,8 +501,7 @@ lab_rect = lab.get_rect(topleft = (275,300))
 
 quest = pygame.image.load("town/questsimage.png").convert_alpha()
 quest_rect = quest.get_rect(topleft = (25,300))
-
-while True:
+def main():
     mouse_pos = pygame.mouse.get_pos()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -531,6 +546,9 @@ while True:
     screen.blit(inventoryicon,inventoryicon_rect)
     pygame.display.update()
     clock.tick(60)
+while True:
+    main()
+    
     
 #LEVELS################################
     def level1_1():
