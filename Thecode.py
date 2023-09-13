@@ -424,7 +424,7 @@ def ininventory():
         clock.tick(60)
 selllistamount = [
     "common"]
-def sell(itemnum)
+def sell(itemnum):
 
     userinv.pop(itemnum)
     
