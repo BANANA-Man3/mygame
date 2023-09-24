@@ -422,11 +422,23 @@ def ininventory():
                             
         pygame.display.update()
         clock.tick(60)
-selllistamount = [
-    "common"]
-def sell(itemnum):
 
-    userinv.pop(itemnum)
+def sell(index):
+    global coins
+    if userinv[index]["rarity"]=="Common":
+        coinsadded = 1
+    if userinv[index]["rarity"]=="Uncommon":
+        coinsadded = 2
+    if userinv[index]["rarity"]=="Rare":
+        coinsadded = 3
+    if userinv[index]["rarity"]=="Epic":
+        coinsadded = 5
+    if userinv[index]["rarity"]=="Legendary":
+        coinsadded = 10
+    if userinv[index]["rarity"]=="Mythical":
+        coinsadded = 1000
+    coins += coinsadded*userinv[index]["level"]
+    userinv.pop(index)
     
 inventoryicon = pygame.image.load("icons/inventoryiconimage.png").convert_alpha()
 inventoryicon_rect = inventoryicon.get_rect(topleft = (1205,665))
